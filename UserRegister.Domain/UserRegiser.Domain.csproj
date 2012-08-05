@@ -8,8 +8,8 @@
     <ProjectGuid>{69F5F6FC-3A38-4A50-8649-C5081FAC11E4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Loveboat.Domain</RootNamespace>
-    <AssemblyName>Loveboat.Domain</AssemblyName>
+    <RootNamespace>UserRegister.Domain</RootNamespace>
+    <AssemblyName>UserRegister.Domain</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -41,27 +41,13 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandHandlers\ExplodedCommandHandler.cs" />
-    <Compile Include="CommandHandlers\ShipCreatedCommandHandler.cs" />
-    <Compile Include="CommandHandlers\DepartureCommandHandler.cs" />
-    <Compile Include="Aggregates\Ship\ShipAggregate.cs" />
-    <Compile Include="CommandHandlers\ArrivalCommandHandler.cs" />
-    <Compile Include="EventHandlers\ArrivalEventHandler.cs" />
-    <Compile Include="EventHandlers\ExplodedEventHandler.cs" />
+    <Compile Include="Aggregates\User\UserAggregate.cs" />
+    <Compile Include="CommandHandlers\UserCreatedCommandHandler.cs" />
     <Compile Include="EventHandlers\ShipCreatedEventHandler.cs" />
-    <Compile Include="EventHandlers\DepartedEventHandler.cs" />
-    <Compile Include="Messages\Commands\ArrivalCommand.cs" />
-    <Compile Include="Messages\Commands\ExplodingCommand.cs" />
-    <Compile Include="Messages\Commands\DepartureCommand.cs" />
-    <Compile Include="Messages\Commands\ShipCreatedCommand.cs" />
-    <Compile Include="Messages\Events\ArrivedEvent.cs" />
-    <Compile Include="Messages\Events\ExplodedEvent.cs" />
-    <Compile Include="Messages\Events\DepartedEvent.cs" />
-    <Compile Include="Messages\Events\ShipCreatedEvent.cs" />
+    <Compile Include="Messages\Commands\UserCreatedCommand.cs" />
+    <Compile Include="Messages\Events\UserCreatedEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ViewModels\AccountModels.cs" />
-    <Compile Include="ViewModels\ShipsViewModel.cs" />
-    <Compile Include="ViewModels\ShipViewModel.cs" />
+    <Compile Include="ViewModels\UserViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">

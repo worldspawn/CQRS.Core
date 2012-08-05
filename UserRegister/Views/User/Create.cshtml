@@ -1,0 +1,107 @@
+﻿@{
+    ViewBag.Title = "Create a User";
+}
+
+<h1>Create a User</h1>
+
+<script type="text/javascript" src="/Scripts/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/Scripts/knockout-2.1.0.js"></script>
+<script type="text/javascript" src="/Scripts/knockout.mapping-latest.js"></script>
+<script type="text/javascript" src="/Scripts/jquery.signalR-0.5.2.min.js"></script>
+<script type="text/javascript" src="/Scripts/yehnah.utils.js"></script>
+
+<script type="text/javascript">
+  jQuery(function ($) {
+    var hub = $.connection.viewModelDispatcher;
+
+    //    hub.viewModelChanged = function (name, dto, type, sourceId) {
+    //      try {
+    //        if (type === 'Insert')
+    //          viewModel.ships.push(ko.mapping.fromJS(dto));
+    //        else {
+    //          var match = ko.utils.arrayFirst(viewModel.ships(), function (item) {
+    //            return dto.id == item.id();
+    //          });
+
+    //          if (match != null) {
+    //            if (type === 'Update')
+    //              viewModel.ships.replace(match, ko.mapping.fromJS(dto));
+    //            if (type === 'Delete')
+    //              viewModel.ships.remove(match);
+    //          }
+    //        }
+    //      }
+    //      catch (e) {
+    //        console.log(e);
+    //      }
+    //    };
+
+    //    $.connection.hub.start().done(function () {
+    //      hub.join(['ShipViewModel']);
+    //    });
+
+    var viewModel = (function () {
+      this.userModel = {
+        username: ko.observable(),
+        firstname: ko.observable(),
+        surname: ko.observable(),
+        email: ko.observable()
+      };
+
+      this.submit = function (form) {
+        form = $(form);
+        form.addClass('disabled');
+        var payload = yehnah.utils.prepareCommand(this.userModel);
+        hub.join(payload.commandId).done(function() {
+          var action = form.prop('action');
+          $.ajax(action, {
+            data: JSON.stringify(payload),
+            contentType: 'application/json',
+            type: 'POST'
+          });
+        });
+        
+        return false;
+      };
+    })();
+
+    ko.applyBindings(viewModel, $('#createuserform')[0]);
+  });
+
+  
+</script>
+
+<form id="createuserform" class="form-horizontal" data-bind="submit : submit" action="@Url.Action("Create")">
+    <fieldset>
+        <legend>User Properties</legend>
+        <!-- ko with : userModel -->
+        <div class="control-group">
+            <label class="control-label">Username</label>
+            <div class="controls">
+                <input type="text" name="username" data-bind="value : username" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">First name</label>
+            <div class="controls">
+                <input type="text" name="firstname" data-bind="value : firstname" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Surname</label>
+            <div class="controls">
+                <input type="text" name="surname"  data-bind="value : surname" />
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Email</label>
+            <div class="controls">
+                <input type="text" name="email"  data-bind="value : email" />
+            </div>
+        </div>
+        <!-- /ko -->
+        <div class="form-actions">
+            <button type="submit" class="btn">Submit</button>
+        </div>
+    </fieldset>
+</form>

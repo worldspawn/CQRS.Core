@@ -1,33 +1,19 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <title>@ViewBag.Title</title>
-    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/site.less")" rel="stylesheet" type="text/css" />
 </head>
 <body>
-    <div class="page">
-        <header>
-            <div id="title">
-                <h1>Loveboat Shipping Co.</h1>
-            </div>
-            <div id="logindisplay">
-                @Html.Partial("_LogOnPartial")
-            </div>
-            <nav>
-                <ul id="menu">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Events", "Reset", "Ships")</li>
-                    <li>@Html.ActionLink("Replay", "Replay", "Ships")</li>
-                </ul>
-            </nav>
-        </header>
+    <div class="container">
+        <div class="row">
+            <h1>User Registry</h1>
+            <hr />
+        </div>
         <section id="main">
             @RenderBody()
         </section>
-        <footer>
-        </footer>
     </div>
 </body>
 </html>

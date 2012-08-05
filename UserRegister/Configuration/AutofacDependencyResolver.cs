@@ -6,7 +6,7 @@ using Autofac;
 using Autofac.Builder;
 using SignalR;
 
-namespace Loveboat.Configuration
+namespace UserRegister.Configuration
 {
     //https://github.com/pszmyd/SignalR.Autofac/blob/master/AutofacDependencyResolver.cs
     /// <summary>

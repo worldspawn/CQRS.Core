@@ -3,7 +3,7 @@ using System.Reflection;
 using Newtonsoft.Json.Serialization;
 using SignalR;
 
-namespace Loveboat.Configuration
+namespace UserRegister.Configuration
 {
     public class SignalRContractResolver : IContractResolver
     {

@@ -2,7 +2,7 @@ using System;
 using CQRS.Core;
 using SignalR;
 
-namespace Loveboat.Hubs
+namespace UserRegister.Hubs
 {
     public class ViewModelEventDispatcher : IViewModelEventDispatcher
     {

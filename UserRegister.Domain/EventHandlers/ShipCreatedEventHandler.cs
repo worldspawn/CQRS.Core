@@ -1,30 +1,35 @@
 ﻿using System.Linq;
 using CQRS.Core;
 using CQRS.Core.ViewModel;
-using Loveboat.Domain.Messages.Events;
-using Loveboat.Domain.ViewModels;
+using UserRegister.Domain.Messages.Events;
+using UserRegister.Domain.ViewModels;
 
-namespace Loveboat.Domain.EventHandlers
+namespace UserRegister.Domain.EventHandlers
 {
-    public class ShipCreatedEventHandler: IEventHandler<ShipCreatedEvent>
+    public class UserCreatedEventHandler : IEventHandler<UserCreatedEvent>
     {
-        private readonly IContextDtoRepositoryWrapper<ShipViewModel> _shipViewRepository;
+        private readonly IContextDtoRepositoryWrapper<UserViewModel> _repository;
 
-        public ShipCreatedEventHandler(IDtoRepository<ShipViewModel> shipViewRepository, IBus bus)
+        public UserCreatedEventHandler(IDtoRepository<UserViewModel> repository, IBus bus)
         {
-            _shipViewRepository = new ContextDtoRepositoryWrapper<ShipViewModel>(shipViewRepository, bus);
+            _repository = new ContextDtoRepositoryWrapper<UserViewModel>(repository, bus);
         }
 
-        public void Handle(ShipCreatedEvent @event)
+        #region IEventHandler<ShipCreatedEvent> Members
+
+        public void Handle(UserCreatedEvent @event)
         {
-            _shipViewRepository.SourceId = @event.SourceId;
-            var shipViewModel = _shipViewRepository.Find(x => x.Id == @event.ShipId).FirstOrDefault();
-            
-            if (shipViewModel != null)
+            _repository.SourceId = @event.SourceId;
+            var model = _repository.Find(x => x.Id == @event.Id).FirstOrDefault();
+
+            if (model != null)
                 return;
 
-            shipViewModel = new ShipViewModel { Id = @event.ShipId, Name = @event.Name, Location = @event.CurrentLocation };
-            _shipViewRepository.Insert(shipViewModel);
+            model = new UserViewModel
+                                {Id = @event.Id, UserName = @event.UserName, FirstName = @event.FirstName, Surname = @event.Surname, Email = @event.Email};
+            _repository.Insert(model);
         }
+
+        #endregion
     }
 }

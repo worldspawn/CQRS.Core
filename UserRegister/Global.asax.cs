@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Reflection;
 using System.Web;
@@ -12,19 +11,18 @@ using CQRS.Core.Configuration;
 using CQRS.Core.Infrastructure;
 using CQRS.Core.Messaging;
 using CQRS.Core.ViewModel;
-using Loveboat.Configuration;
-using Loveboat.Domain.CommandHandlers;
-using Loveboat.Domain.EventHandlers;
-using Loveboat.Domain.Messages.Commands;
-using Loveboat.Domain.Messages.Events;
-using Loveboat.Domain.ViewModels;
-using Loveboat.Hubs;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using SignalR;
+using UserRegister.Configuration;
+using UserRegister.Domain.CommandHandlers;
+using UserRegister.Domain.EventHandlers;
+using UserRegister.Domain.Messages.Commands;
+using UserRegister.Domain.Messages.Events;
+using UserRegister.Domain.ViewModels;
+using UserRegister.Hubs;
 using AutofacDependencyResolver = Autofac.Integration.Mvc.AutofacDependencyResolver;
 
-namespace Loveboat
+namespace UserRegister
 {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801
@@ -59,7 +57,7 @@ namespace Loveboat
             var builder = new ContainerBuilder();
 
             string busEndPointSetting = ConfigurationManager.AppSettings["setting_name_BusEndPointUri"];
-            string dbSetting = ConfigurationManager.AppSettings["setting_name_loveboat.db"];
+            string dbSetting = ConfigurationManager.AppSettings["setting_name_userregister.db"];
             string busEndPoint = ConfigurationManager.AppSettings[busEndPointSetting];
             string db = ConfigurationManager.AppSettings[dbSetting];
 
@@ -75,7 +73,8 @@ namespace Loveboat
 
             builder.RegisterControllers(Assembly.GetExecutingAssembly());
 
-            builder.Register(context => { return GlobalHost.DependencyResolver.Resolve<IConnectionManager>(); }).As<IConnectionManager>();
+            builder.Register(context => { return GlobalHost.DependencyResolver.Resolve<IConnectionManager>(); }).As
+                <IConnectionManager>();
 
             var settings = new JsonSerializerSettings();
             settings.ContractResolver = new SignalRContractResolver();
@@ -85,7 +84,7 @@ namespace Loveboat
             IContainer container = builder.Build();
 
             //GlobalHost.DependencyResolver = new Configuration.AutofacDependencyResolver(container);
-            
+
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
 
             try
@@ -94,27 +93,21 @@ namespace Loveboat
                 MessageHost.RegisterMessageHandlers(container,
                                                     new MessageRegistration
                                                         <ReplayEventStoreCommand, ReplayEventStoreCommandHandler>(),
-                                                    new MessageRegistration<ArrivalCommand, ArrivalCommandHandler>(),
-                                                    new MessageRegistration<DepartureCommand, DepartureCommandHandler>(),
                                                     new MessageRegistration
-                                                        <ShipCreatedCommand, ShipCreatedCommandHandler>(),
-                                                    new MessageRegistration<ExplodingCommand, ExplodedCommandHandler>()
+                                                        <UserCreatedCommand, UserCreatedCommandHandler>()
                     );
 
                 MessageHost.RegisterMessageHandlers(container,
-                                                    new MessageRegistration<ArrivedEvent, ArrivalEventHandler>(),
-                                                    new MessageRegistration<DepartedEvent, DepartedEventHandler>(),
-                                                    new MessageRegistration<ShipCreatedEvent, ShipCreatedEventHandler>(),
-                                                    new MessageRegistration<ExplodedEvent, ExplodedEventHandler>()
+                                                    new MessageRegistration<UserCreatedEvent, UserCreatedEventHandler>()
                     );
 
                 MessageHost.RegisterMessageHandlers(container,
                                                     new MessageRegistration
-                                                        <ViewModelUpdatedEvent<ShipViewModel>,
-                                                        ViewModelUpdatedEventHandler<ShipViewModel>>()
+                                                        <ViewModelUpdatedEvent<UserViewModel>,
+                                                        ViewModelUpdatedEventHandler<UserViewModel>>()
                     );
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(busEndPoint, ex);
             }

@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
 
-namespace Loveboat.Controllers
+namespace UserRegister.Controllers
 {
     public class HomeController : Controller
     {
