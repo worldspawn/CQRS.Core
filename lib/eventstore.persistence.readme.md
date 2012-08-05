@@ -1,0 +1,1 @@
+these dlls are here instead of the distributed versions because they target and work with mongo csharpdrive 1.5 which the current latest eventstore nuget packge (3.0) does not - and will not work with mongo driver 1.5 (it targets 1.3),.
