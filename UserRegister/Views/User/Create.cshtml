@@ -14,31 +14,29 @@
   jQuery(function ($) {
     var hub = $.connection.viewModelDispatcher;
 
-    //    hub.viewModelChanged = function (name, dto, type, sourceId) {
-    //      try {
-    //        if (type === 'Insert')
-    //          viewModel.ships.push(ko.mapping.fromJS(dto));
-    //        else {
-    //          var match = ko.utils.arrayFirst(viewModel.ships(), function (item) {
-    //            return dto.id == item.id();
-    //          });
+    hub.viewModelChanged = function (name, dto, type, sourceId) {
+      try {
+        if (type === 'Insert')
+          viewModel.ships.push(ko.mapping.fromJS(dto));
+        else {
+          var match = ko.utils.arrayFirst(viewModel.ships(), function (item) {
+            return dto.id == item.id();
+          });
 
-    //          if (match != null) {
-    //            if (type === 'Update')
-    //              viewModel.ships.replace(match, ko.mapping.fromJS(dto));
-    //            if (type === 'Delete')
-    //              viewModel.ships.remove(match);
-    //          }
-    //        }
-    //      }
-    //      catch (e) {
-    //        console.log(e);
-    //      }
-    //    };
+          if (match != null) {
+            if (type === 'Update')
+              viewModel.ships.replace(match, ko.mapping.fromJS(dto));
+            if (type === 'Delete')
+              viewModel.ships.remove(match);
+          }
+        }
+      }
+      catch (e) {
+        console.log(e);
+      }
+    };
 
-    //    $.connection.hub.start().done(function () {
-    //      hub.join(['ShipViewModel']);
-    //    });
+    $.connection.hub.start();
 
     var viewModel = (function () {
       this.userModel = {
@@ -52,7 +50,7 @@
         form = $(form);
         form.addClass('disabled');
         var payload = yehnah.utils.prepareCommand(this.userModel);
-        hub.join(payload.commandId).done(function() {
+        hub.join([payload.commandId]).done(function () {
           var action = form.prop('action');
           $.ajax(action, {
             data: JSON.stringify(payload),
@@ -60,7 +58,7 @@
             type: 'POST'
           });
         });
-        
+
         return false;
       };
     })();
